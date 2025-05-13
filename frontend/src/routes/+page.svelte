@@ -27,16 +27,6 @@
     input?.click();
   }
 
-  function handleHover(event: MouseEvent, color: string) {
-    const button = event.currentTarget as HTMLButtonElement;
-    button.style.backgroundColor = color;
-  }
-
-  function handleLeave(event: MouseEvent, color: string) {
-    const button = event.currentTarget as HTMLButtonElement;
-    button.style.backgroundColor = '#F9D65E';
-  }
-
   function toggleDropdown() {
     const dropdown = document.querySelector('#dropdown-menu');
     if (dropdown) {
