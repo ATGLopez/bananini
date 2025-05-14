@@ -15,7 +15,7 @@
 
 <Button onClick={triggerPicker} addClass={`${buttonClass} flex justify-between items-center`}>
   {#if imageUrl}
-    <p class="align-center">{fileName}</p>
+    <p class="flex-1 text-center">{fileName}</p>
   {:else}
     Upload photo <ImageUp class="w-5 h-5" />
   {/if}
@@ -30,5 +30,5 @@
   type="file"
   accept="image/*"
   class="hidden"
-  on:change={onFileChange}
+  onchange={onFileChange}
 />

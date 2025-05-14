@@ -10,21 +10,42 @@
 
   let activeModel = $state('CNN');
   let imageUrl = $state('');
-  let fileName = $state('')
+  let fileName = $state('');
+  let imageFile: File | null = null;
 
   function handleFileChange(event: Event) {
     const target = event.target as HTMLInputElement;
     const file = target.files?.[0];
+
+    console.log('Image uploaded:', file?.name);
+
     if (file && file.type.startsWith('image/')) {
+      imageFile = file;
       imageUrl = URL.createObjectURL(file);
       fileName = file.name;
     }
   }
 
   function clearImage() {
+    console.log('Image cleared.')
     imageUrl = '';
     const input = document.getElementById('image-input') as HTMLInputElement | null;
     if (input) input.value = '';
+  }
+
+  async function handleClassify() {
+    console.log('pressed classify button');
+    if (imageFile && activeModel) {
+      try {
+        const result = await classifyImage(imageFile, activeModel);
+        console.log('Classification result:', result);
+        // You can display the result or handle it as needed
+      } catch (error) {
+        console.error('Error during classification:', error);
+      }
+    } else {
+      console.warn('No image selected or model selected');
+    }
   }
 
 </script>
@@ -57,8 +78,8 @@
       </div>
     </div>
 
-    <div class="flex flex-col gap-4">
-      <div class="relative w-full aspect-square border rounded-lg flex items-center justify-center overflow-hidden">
+    <div class="flex items-center flex-col gap-4">
+      <div class="relative w-full aspect-square border rounded-lg flex items-center justify-center overflow-hidden max-w-[400px] max-h-[400px]">
         {#if imageUrl}
           <button
             class="absolute top-2 right-2 z-10 p-0.5 rounded-full shadow bg-red-300 hover:bg-red-400 transition"
@@ -66,13 +87,15 @@
           >
             <CircleX class="w-5 h-5" />
           </button>
-          <img src={imageUrl} alt="Preview" class="object-cover w-full h-full" />
+          <img src={imageUrl} alt="Preview" class="object-contain w-full h-full" />
         {:else}
           <span><ImageUp /></span>
         {/if}
       </div>
 
-      <Button id="classify-btn" onClick={() => {}} addClass={imageUrl ? leaf : 'bg-gray-300 cursor-not-allowed'}>
+      <Button id="classify-btn" onClick={handleClassify} disabled={!imageUrl} 
+        addClass={imageUrl ? leaf : 'bg-gray-300 cursor-not-allowed'}
+      >
         Classify
       </Button>
 

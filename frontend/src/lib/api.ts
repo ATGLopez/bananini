@@ -1,18 +1,23 @@
-export async function classifyImage() {
-  if (!imageUrl) return;
-
-  const input = document.getElementById('image-input') as HTMLInputElement;
-  const file = input.files?.[0];
-  if (!file) return;
-
+export async function classifyImage(imageFile: File, model: string) {
   const formData = new FormData();
-  formData.append('file', file);
+  formData.append('file', imageFile);  
+  formData.append('model', model);   
 
-  const res = await fetch('http://localhost:8000/classify', {
-    method: 'POST',
-    body: formData
-  });
+  try {
+    const response = await fetch('http://localhost:8000/classify', {
+      method: 'POST',
+      body: formData,
+    });
 
-  const data = await res.json();
-  alert(`Prediction: ${data.class}`);
+    if (response.ok) {
+      const result = await response.json();
+      return result; 
+    } else {
+      const error = await response.json();
+      throw new Error(error.detail || 'Failed to classify image');
+    }
+  } catch (err) {
+    console.error('Error classifying image:', err);
+    throw err;  
+  }
 }

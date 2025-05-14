@@ -10,10 +10,10 @@ app = FastAPI()
 
 # CORS for frontend access
 app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # or restrict to your domain
-    allow_methods=["*"],
-    allow_headers=["*"],
+  CORSMiddleware,
+  allow_origins=["*"],  # or restrict to your domain
+  allow_methods=["*"],
+  allow_headers=["*"],
 )
 
 # Load model and feature extractor
@@ -23,17 +23,25 @@ model.eval()
 
 @app.post("/classify")
 async def classify(file: UploadFile = File(...)):
-    image_bytes = await file.read()
-    image = Image.open(BytesIO(image_bytes)).convert("RGB")
+  print(f"Received file: {file.filename}")
+  image_bytes = await file.read()
+  image = Image.open(BytesIO(image_bytes)).convert("RGB")
 
-    # Preprocess image
-    inputs = feature_extractor(images=image, return_tensors="pt")
-    
-    # Predict
+  # Preprocess image
+  inputs = feature_extractor(images=image, return_tensors="pt")
+  
+  # Predict
+  try:
     with torch.no_grad():
         outputs = model(**inputs)
         logits = outputs.logits
         predicted_class_idx = logits.argmax(-1).item()
         label = model.config.id2label[predicted_class_idx]
+  except Exception as e:
+      return {"error": str(e)}
 
-    return {"class": label}
+  return {"class": label}
+
+@app.get("/")
+def root():
+  return {"message": "API is running"}
