@@ -1,5 +1,6 @@
 <script lang="ts">
   import { ChevronDown, ImageUp, Camera, CircleX } from 'lucide-svelte';
+  import { classifyImage } from '$lib/api';
   import Button from './Button.svelte';
 
   const banana = 'bg-[#F9D65E] hover:bg-[#FCE588]';
@@ -7,19 +8,21 @@
 
   let activeModel = $state('CNN');
   let imageUrl = $state('');
+  let fileName = $state('')
 
   function handleFileChange(event: Event) {
     const target = event.target as HTMLInputElement;
     const file = target.files?.[0];
     if (file && file.type.startsWith('image/')) {
       imageUrl = URL.createObjectURL(file);
+      fileName = file.name;
     }
   }
 
   function clearImage() {
     imageUrl = '';
     const input = document.getElementById('image-input') as HTMLInputElement | null;
-    if (input) input.value = ''; // Reset the input so the same file can be re-uploaded
+    if (input) input.value = '';
   }
 
   function openFilePicker(): void {
@@ -91,12 +94,16 @@
         </p>
 
         <Button id="upload-photo-btn" onClick={openFilePicker} addClass="{banana} flex justify-between items-center">
-          Upload photo<ImageUp class="w-5 h-5" />
+          {#if imageUrl}
+            <p class="align-center">{fileName}</p>
+          {:else}
+            Upload photo<ImageUp class="w-5 h-5" />
+          {/if}
         </Button>
 
-        <Button id="take-photo-btn" onClick={() => {}} addClass="{banana} flex justify-between items-center">
+        <!-- <Button id="take-photo-btn" onClick={() => {}} addClass="{banana} flex justify-between items-center">
           Take photo<Camera class="w-5 h-5" />
-        </Button>
+        </Button> -->
 
         <input id="image-input" type="file" accept="image/*" class="hidden" onchange={handleFileChange}/>
       </div>
@@ -106,7 +113,7 @@
       <div class="relative w-full aspect-square border rounded-lg flex items-center justify-center overflow-hidden">
         {#if imageUrl}
           <button
-            class="absolute top-2 right-2 z-10 rounded-full p-1 shadow hover:bg-red-300 transition"
+            class="absolute top-2 right-2 z-10 p-0.5 rounded-full shadow bg-red-300 hover:bg-red-400 transition"
             onclick={clearImage}
           >
             <CircleX class="w-5 h-5" />
@@ -120,6 +127,8 @@
       <Button id="classify-btn" onClick={() => {}} addClass={imageUrl ? leaf : 'bg-gray-300 cursor-not-allowed'}>
         Classify
       </Button>
+
+      <div></div>
     </div>
   </div>
 </main>
