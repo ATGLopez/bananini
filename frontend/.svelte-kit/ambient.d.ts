@@ -30,6 +30,7 @@ declare module '$env/static/private' {
 	export const APPDATA: string;
 	export const BESIEGE_GAME_ASSEMBLIES: string;
 	export const BESIEGE_UNITY_ASSEMBLIES: string;
+	export const BUNDLED_DEBUGPY_PATH: string;
 	export const ChocolateyInstall: string;
 	export const ChocolateyLastPathUpdate: string;
 	export const CHROME_CRASHPAD_PIPE_NAME: string;
@@ -41,10 +42,10 @@ declare module '$env/static/private' {
 	export const ComSpec: string;
 	export const DriverData: string;
 	export const EDITOR: string;
-	export const EFC_13716_1262719628: string;
-	export const EFC_13716_1592913036: string;
-	export const EFC_13716_2775293581: string;
-	export const EFC_13716_3789132940: string;
+	export const EFC_2756_1262719628: string;
+	export const EFC_2756_1592913036: string;
+	export const EFC_2756_2775293581: string;
+	export const EFC_2756_3789132940: string;
 	export const FPS_BROWSER_APP_PROFILE_STRING: string;
 	export const FPS_BROWSER_USER_PROFILE_STRING: string;
 	export const GIT_ASKPASS: string;
@@ -97,6 +98,7 @@ declare module '$env/static/private' {
 	export const PROMPT: string;
 	export const PSModulePath: string;
 	export const PUBLIC: string;
+	export const PYDEVD_DISABLE_FILE_VALIDATION: string;
 	export const QT_SCALE_FACTOR_ROUNDING_POLICY: string;
 	export const SESSIONNAME: string;
 	export const SystemDrive: string;
@@ -110,6 +112,7 @@ declare module '$env/static/private' {
 	export const USERNAME: string;
 	export const USERPROFILE: string;
 	export const VBOX_HWVIRTEX_IGNORE_SVM_IN_USE: string;
+	export const VSCODE_DEBUGPY_ADAPTER_ENDPOINTS: string;
 	export const VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
 	export const VSCODE_GIT_ASKPASS_MAIN: string;
 	export const VSCODE_GIT_ASKPASS_NODE: string;
@@ -151,6 +154,7 @@ declare module '$env/dynamic/private' {
 		APPDATA: string;
 		BESIEGE_GAME_ASSEMBLIES: string;
 		BESIEGE_UNITY_ASSEMBLIES: string;
+		BUNDLED_DEBUGPY_PATH: string;
 		ChocolateyInstall: string;
 		ChocolateyLastPathUpdate: string;
 		CHROME_CRASHPAD_PIPE_NAME: string;
@@ -162,10 +166,10 @@ declare module '$env/dynamic/private' {
 		ComSpec: string;
 		DriverData: string;
 		EDITOR: string;
-		EFC_13716_1262719628: string;
-		EFC_13716_1592913036: string;
-		EFC_13716_2775293581: string;
-		EFC_13716_3789132940: string;
+		EFC_2756_1262719628: string;
+		EFC_2756_1592913036: string;
+		EFC_2756_2775293581: string;
+		EFC_2756_3789132940: string;
 		FPS_BROWSER_APP_PROFILE_STRING: string;
 		FPS_BROWSER_USER_PROFILE_STRING: string;
 		GIT_ASKPASS: string;
@@ -218,6 +222,7 @@ declare module '$env/dynamic/private' {
 		PROMPT: string;
 		PSModulePath: string;
 		PUBLIC: string;
+		PYDEVD_DISABLE_FILE_VALIDATION: string;
 		QT_SCALE_FACTOR_ROUNDING_POLICY: string;
 		SESSIONNAME: string;
 		SystemDrive: string;
@@ -231,6 +236,7 @@ declare module '$env/dynamic/private' {
 		USERNAME: string;
 		USERPROFILE: string;
 		VBOX_HWVIRTEX_IGNORE_SVM_IN_USE: string;
+		VSCODE_DEBUGPY_ADAPTER_ENDPOINTS: string;
 		VSCODE_GIT_ASKPASS_EXTRA_ARGS: string;
 		VSCODE_GIT_ASKPASS_MAIN: string;
 		VSCODE_GIT_ASKPASS_NODE: string;
