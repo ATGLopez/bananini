@@ -1,11 +1,8 @@
 <script lang="ts">
 	import '../app.css';
 
-  let activeTab = $state('Home');
+  import { page } from '$app/state';
 
-  function setActive(tab: string) {
-    activeTab = tab;
-  }
 
 	let { children } = $props();
 </script>
@@ -15,8 +12,7 @@
     <a href="/">
       <button 
         class="px-6 py-2 font-semibold transition duration-300 ease-in-out rounded-full cursor-pointer"
-        style="background-color: {activeTab === 'Home' ? '#F9D65E' : 'transparent'}"
-        onclick={() => setActive('Home')}
+        class:!bg-[#F9D65E]={page.url.pathname === '/'}
       >
         Home
       </button>
@@ -25,8 +21,7 @@
     <a href="/about">
       <button 
         class="px-6 py-2 font-semibold transition duration-300 ease-in-out rounded-full cursor-pointer"
-        style="background-color: {activeTab === 'About' ? '#F9D65E' : 'transparent'}"
-        onclick={() => setActive('About')}
+        class:!bg-[#F9D65E]={page.url.pathname === '/about'}
       >
         About
       </button>
@@ -35,8 +30,7 @@
     <a href="/team">
       <button 
         class="px-6 py-2 font-semibold transition duration-300 ease-in-out rounded-full cursor-pointer"
-        style="background-color: {activeTab === 'Team' ? '#F9D65E' : 'transparent'}"
-        onclick={() => setActive('Team')}
+        class:!bg-[#F9D65E]={page.url.pathname === '/team'}
       >
         Team
       </button>
