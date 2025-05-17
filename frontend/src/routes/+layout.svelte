@@ -11,8 +11,7 @@
 </script>
 
 <main class="min-h-screen bg-yellow-50 flex flex-col items-center">
-  <!-- Connected Navbar -->
-  <nav class="flex mt-6 border border-gray-300 rounded-full overflow-hidden bg-white shadow-sm">
+  <nav class="flex mt-6 border border-black rounded-full overflow-hidden bg-white shadow-sm">
     <a href="/">
       <button 
         class="px-6 py-2 font-semibold transition duration-300 ease-in-out rounded-full cursor-pointer"
