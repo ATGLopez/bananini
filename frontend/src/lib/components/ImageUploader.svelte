@@ -17,7 +17,7 @@
   {#if imageUrl}
     <p class="flex-1 text-center">{fileName}</p>
   {:else}
-    Upload photo <ImageUp class="w-5 h-5" />
+    Upload photo <ImageUp class="w-5 h-5 object-cover" />
   {/if}
 </Button>
 

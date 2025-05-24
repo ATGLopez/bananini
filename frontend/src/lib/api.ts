@@ -1,10 +1,10 @@
-export async function classifyImage(imageFile: File, model: string) {
+export async function classifyImageByCNN(imageFile: File, model: string) {
   const formData = new FormData();
   formData.append('file', imageFile);  
   formData.append('model', model);   
 
   try {
-    const response = await fetch('http://localhost:8000/classify', {
+    const response = await fetch('http://localhost:8000/cnn-classify', {
       method: 'POST',
       body: formData,
     });
