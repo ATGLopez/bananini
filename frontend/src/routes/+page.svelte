@@ -138,9 +138,9 @@
     </div>
   </section>
 
-  <hr class="border-t border-gray-300 my-10" />
+  <hr id="about" class="border-t border-gray-300 my-10" />
 
-  <section id="about" class="snap-start flex justify-center px-4 pb-12">
+  <section class="snap-start flex justify-center px-4 pb-12">
     <div>
       <div class="pb-12 text-4xl text-center">
         <b>About</b>
@@ -173,9 +173,9 @@
     </div>
   </section>
 
-  <hr class="border-t border-gray-300 my-10" />
+  <hr id="team" class="border-t border-gray-300 my-10" />
 
-  <section id="team" class="snap-start flex justify-center px-4 pb-12">
+  <section class="snap-start flex justify-center px-4 pb-12">
     <div>
       <div class="pb-12 text-4xl text-center">
         <b>Team</b>
