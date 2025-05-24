@@ -63,7 +63,7 @@
 
 <main class="pb-8">
   <div class="py-12 text-4xl text-center">
-    Welcome to <b>Bananapp</b>.
+    Welcome to <b>Bananini</b>.
   </div>
 
   <div class="grid grid-cols-[400px] md:grid-cols-[240px_240px] gap-8 md:gap-28">
