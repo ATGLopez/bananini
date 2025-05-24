@@ -7,6 +7,7 @@ import numpy as np
 from io import BytesIO
 
 app = FastAPI()
+BASE_URL = "https://bananini.onrender.com"
 
 # CORS for frontend access
 app.add_middleware(
@@ -37,7 +38,7 @@ def preprocess_image(image: Image.Image) -> np.ndarray:
     return image
 
 # POST endpoint to classify uploaded image
-@app.post("/cnn-classify")
+@app.post("{BASE_URL}/cnn-classify")
 async def cnn_classify(file: UploadFile = File(...)):
     try:
         contents = await file.read()
