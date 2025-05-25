@@ -1,10 +1,13 @@
-# sv
+# Bananini
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+[`sv`](https://bananini.vercel.app) is a web application designed to process images of banana leaves to identify its corresponding disease. 
 
-## Creating a project
+The app can use either a CNN or ViT model based on the user's preference. 
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Application Structure
+
+Frontend - Svelte
+Backend - FastAPI
 
 ```bash
 # create a new project in the current directory
