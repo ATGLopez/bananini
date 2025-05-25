@@ -48,10 +48,16 @@
     console.log('pressed classify button');
     loading = true;
     classificationResult = null;
+
     if (imageFile && activeModel) {
       try {
         const result = await classifyImageByCNN(imageFile, activeModel);
         console.log('Classification result:', result);
+
+        if (!result || result.error || !result.class) {
+          throw new Error(result?.error || 'Invalid or incomplete response from server');
+        }
+
         classificationResult = result.class;
       } catch (error: any) {
         console.error('Error during classification:', error);
@@ -83,11 +89,11 @@
             <div class="flex flex-col gap-6">
               <div class="grid gap-0">
                 <p class="text-lg md:text-xl">Classification:<br></p>
-                <p class="text-3xl md:text-4xl"><b>{labelMap[classificationResult]}</b></p>
+                <p class="text-3xl md:text-4xl"><b>{labelMap[classificationResult] || classificationResult}</b></p>
               </div>
 
               <div class="grid">
-                <p class="text-lg md:text-xl">{descMap[classificationResult]}</p>
+                <p class="text-lg md:text-xl">{descMap[classificationResult] || 'Error loading description.'}</p>
               </div>
             </div>
           {:else}
