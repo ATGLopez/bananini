@@ -1,11 +1,12 @@
 <script lang="ts">
   import { ImageUp, CircleX } from 'lucide-svelte';
   import { classifyImageByCNN } from '$lib/api';
-  import Button from '../lib/components/Button.svelte';
+  import Button from '$lib/components/Button.svelte';
   import ImageUploader from '$lib/components/ImageUploader.svelte';
   import DropdownModelSelector from '$lib/components/DropdownModelSelector.svelte';
   import { labelMap, descMap }from '$lib/classification';
-  import MemberCard from "$lib/components/MemberCard.svelte";
+  import MemberCard from '$lib/components/MemberCard.svelte';
+  import Loading from '$lib/components/Loading.svelte';
 
   const banana = 'bg-[#F9D65E] hover:bg-[#FCE588]';
   const leaf = 'bg-[#AACE70] hover:bg-[#C1DC8E]'
@@ -16,6 +17,7 @@
   let imageFile: File | null = null;
 
   let classificationResult: string | null = $state(null);
+  let loading = $state(false);
 
   function handleFileChange(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -44,6 +46,7 @@
 
   async function handleClassify() {
     console.log('pressed classify button');
+    loading = true;
     classificationResult = null;
     if (imageFile && activeModel) {
       try {
@@ -53,57 +56,63 @@
       } catch (error: any) {
         console.error('Error during classification:', error);
         classificationResult = 'Error: ' + error.message;
+      } finally {
+        loading = false;
       }
+      
     } else {
       console.warn('No image selected or model selected');
       classificationResult = null;
     }
   }
-
 </script>
 
 <main class="scroll-smooth">
 
-  <section id="home" class="snap-start flex justify-center px-4 pb-12">
+  <section id="home" class="snap-start flex justify-center px-4 pt-18 pb-12">
     <div class="w-full max-w-xs md:max-w-3xl min-w-xs md:min-w-2xl">
       <div class="py-12 text-4xl text-center">
         Welcome to <b>Bananini</b>.
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-        {#if classificationResult && imageUrl}
-          <div class="flex flex-col gap-6">
-            <div class="grid gap-0">
-              <p class="text-lg md:text-xl">Classification:<br></p>
-              <p class="text-3xl md:text-4xl"><b>{labelMap[classificationResult]}</b></p>
-            </div>
-
-            <div class="grid">
-              <p class="text-lg md:text-xl">{descMap[classificationResult]}</p>
-            </div>
-          </div>
+        {#if loading}
+          <Loading />
         {:else}
-          <div class="flex flex-col gap-10">
-            <div class="grid gap-2">
-              <p class="text-xl">
-                <b>Step 1.</b> Choose a model for image classification.
-              </p>
+          {#if classificationResult && imageUrl}
+            <div class="flex flex-col gap-6">
+              <div class="grid gap-0">
+                <p class="text-lg md:text-xl">Classification:<br></p>
+                <p class="text-3xl md:text-4xl"><b>{labelMap[classificationResult]}</b></p>
+              </div>
 
-              <DropdownModelSelector
-                activeModel={activeModel}
-                onSelect={(model) => (activeModel = model)}
-                buttonClass={banana}
-              />
+              <div class="grid">
+                <p class="text-lg md:text-xl">{descMap[classificationResult]}</p>
+              </div>
             </div>
-            
-            <div class="grid gap-2">
-              <p class="text-xl">
-                <b>Step 2.</b> Upload a photo of banana leaf.
-              </p>
+          {:else}
+            <div class="flex flex-col gap-10">
+              <div class="grid gap-2">
+                <p class="text-xl">
+                  <b>Step 1.</b> Choose a model for image classification.
+                </p>
 
-              <ImageUploader {imageUrl} {fileName} onFileChange={handleFileChange} buttonClass={banana} />
+                <DropdownModelSelector
+                  activeModel={activeModel}
+                  onSelect={(model) => (activeModel = model)}
+                  buttonClass={banana}
+                />
+              </div>
+              
+              <div class="grid gap-2">
+                <p class="text-xl">
+                  <b>Step 2.</b> Upload a photo of banana leaf.
+                </p>
+
+                <ImageUploader {imageUrl} {fileName} onFileChange={handleFileChange} buttonClass={banana} />
+              </div>
             </div>
-          </div>
+          {/if}
         {/if}
 
         <div class="flex items-center flex-col gap-4">
@@ -126,8 +135,8 @@
               Reset
             </Button>
           {:else}
-            <Button id="classify-btn" onClick={handleClassify} disabled={!imageUrl} 
-              addClass={imageUrl ? leaf : 'bg-gray-300 cursor-not-allowed'}
+            <Button id="classify-btn" onClick={handleClassify} disabled={!imageUrl || loading} 
+              addClass={(imageUrl && !loading) ? leaf : 'bg-gray-300 cursor-not-allowed'}
             >
               Classify
             </Button>
@@ -138,9 +147,9 @@
     </div>
   </section>
 
-  <hr id="about" class="border-t border-gray-300 my-10" />
+  <hr class="border-t border-gray-300 my-10" />
 
-  <section class="snap-start flex justify-center px-4 pb-12">
+  <section id="about" class="snap-start flex justify-center px-4 py-18">
     <div>
       <div class="pb-12 text-4xl text-center">
         <b>About</b>
@@ -173,9 +182,9 @@
     </div>
   </section>
 
-  <hr id="team" class="border-t border-gray-300 my-10" />
+  <hr class="border-t border-gray-300 my-10" />
 
-  <section class="snap-start flex justify-center px-4 pb-12">
+  <section id="team" class="snap-start flex justify-center px-4 pt-18 pb-24">
     <div>
       <div class="pb-12 text-4xl text-center">
         <b>Team</b>
