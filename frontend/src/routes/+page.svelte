@@ -1,6 +1,6 @@
 <script lang="ts">
   import { ImageUp, CircleX } from 'lucide-svelte';
-  import { classifyImageByCNN } from '$lib/api';
+  import { classifyImage } from '$lib/api';
   import Button from '$lib/components/Button.svelte';
   import ImageUploader from '$lib/components/ImageUploader.svelte';
   import DropdownModelSelector from '$lib/components/DropdownModelSelector.svelte';
@@ -51,7 +51,7 @@
 
     if (imageFile && activeModel) {
       try {
-        const result = await classifyImageByCNN(imageFile, activeModel);
+        const result = await classifyImage(imageFile, activeModel);
         console.log('Classification result:', result);
 
         if (!result || result.error || !result.class) {
@@ -192,11 +192,11 @@
 
   <section id="team" class="snap-start flex justify-center px-4 pt-18 pb-24">
     <div>
-      <div class="pb-12 text-4xl text-center">
+      <div class="pb-12 md:pb-24 text-4xl text-center">
         <b>Team</b>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-16 items-center">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16 items-center pb-8 md:pb-20">
         <MemberCard name="Aneko Delfin" username="EkoChamber"/>
         <MemberCard name="Alec Lopez" username="ATGLopez"/>
         <MemberCard name="Juni Maca" username="junimaca"/>

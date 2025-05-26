@@ -2,7 +2,6 @@
 	import '../app.css';
 
   import { onMount } from 'svelte';
-  import { page } from '$app/state';
 
   let activeSection = $state('');
 
@@ -18,12 +17,10 @@
     const el = document.querySelector(href);
     if (!el) return;
 
-    const yOffset = -80; 
+    const yOffset = -70; 
     const y = el.getBoundingClientRect().top + window.scrollY + yOffset;
 
     window.scrollTo({ top: y, behavior: 'smooth' });
-
-    history.pushState(null, '', href);
   }
 
   onMount(() => {
@@ -38,7 +35,7 @@
           }
         }
       },
-      { threshold: 0.6 }
+      { threshold: 0.55 }
     );
 
     sections.forEach((section) => observer.observe(section));

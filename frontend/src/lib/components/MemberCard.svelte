@@ -7,7 +7,7 @@ export let username: string = ''
 </script>
 
 <main>
-  <div class="grid lg:grid-rows-[auto_auto_auto] gap-1">
+  <div class="grid lg:grid-rows-[auto_auto_auto] gap-0 md:gap-1">
     <div class="w-40 h-40 md:w-50 md:h-50 border border-gray-800 rounded-sm">
       <img src={`https://github.com/${username}.png`} alt="GitHub Avatar" class="object-cover rounded-sm w-full h-full" />
     </div>
