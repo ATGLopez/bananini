@@ -15,7 +15,7 @@ export async function classifyImage(imageFile: File, model: string) {
   }
 
   try {
-    const response = await fetch(`http://localhost:8000${endpoint}`, {
+    const response = await fetch(`${BASE_URL}${endpoint}`, {
       method: 'POST',
       body: formData,
     });
