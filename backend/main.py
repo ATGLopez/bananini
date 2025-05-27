@@ -9,6 +9,11 @@ import tensorflow as tf
 
 import transformers
 
+import torch.nn.functional as F
+import torchvision
+import torchvision.transforms as T
+from timm import create_model
+
 from huggingface_hub import hf_hub_download
 
 app = FastAPI()
@@ -26,11 +31,18 @@ class_names = ['cordana', 'healthy', 'pestalotiopsis', 'sigatoka']
 current_model_type = None
 vit_model = None
 cnn_model = None
-transforms = None
 
 IMG_SIZE = (224, 224)
 NORMALIZE_MEAN = (0.5, 0.5, 0.5)
 NORMALIZE_STD = (0.5, 0.5, 0.5)
+
+transforms = [
+  T.Resize(IMG_SIZE),
+  T.ToTensor(),
+  T.Normalize(NORMALIZE_MEAN, NORMALIZE_STD),
+]
+
+transforms = T.Compose(transforms)
 
 def unload_cnn():
   global cnn_model
@@ -67,19 +79,6 @@ async def set_model(model: str = Form(...)):
     cnn_model.make_predict_function()
     print("CNN model loaded.")
   elif model.lower() == "vit" and vit_model is None:
-    import torch.nn.functional as F
-    import torchvision
-    import torchvision.transforms as T
-    from timm import create_model
-    
-    transforms = [
-      T.Resize(IMG_SIZE),
-      T.ToTensor(),
-      T.Normalize(NORMALIZE_MEAN, NORMALIZE_STD),
-    ]
-
-    transforms = T.Compose(transforms)
-    
     print("Loading ViT model...")
     device = 'cpu'
     print("Using device:", device)
