@@ -81,7 +81,7 @@
     modelLoadError = '';
 
     try {
-      await onModelChange(selectedModel);
+      await onModelChange(selectedModel.toLowerCase());
       activeModel = selectedModel;
       modelLoaded = true;
     } catch (error: any) {
@@ -129,11 +129,11 @@
                 />
 
                 {#if modelLoading}
-                  <p class="text-sm text-yellow-600 mt-1">Loading model...</p>
+                  <p class="text-sm text-yellow-600 mt-1 ml-1">Loading model...</p>
                 {:else if modelLoaded}
-                  <p class="text-sm text-green-600 mt-1">Model loaded successfully.</p>
+                  <p class="text-sm text-green-600 mt-1 ml-1">Model loaded successfully.</p>
                 {:else if modelLoadError}
-                  <p class="text-sm text-red-600 mt-1">{modelLoadError}</p>
+                  <p class="text-sm text-red-600 mt-1 ml-1">{modelLoadError}</p>
                 {/if}
               </div>
               

@@ -1,4 +1,5 @@
 const BASE_URL = "https://bananini.onrender.com";
+// const LOCAL_URL = "http://localhost:8000";
 
 export async function classifyImage(imageFile: File, model: string) {
   const formData = new FormData();
@@ -15,7 +16,7 @@ export async function classifyImage(imageFile: File, model: string) {
   }
 
   try {
-    const response = await fetch(`http://localhost:8000${endpoint}`, {
+    const response = await fetch(`${BASE_URL}${endpoint}`, {
       method: 'POST',
       body: formData,
     });
@@ -34,12 +35,16 @@ export async function classifyImage(imageFile: File, model: string) {
 }
 
 export async function onModelChange(model: string) {
-  const res = await fetch(`http://localhost:8000/set-model`, {
-    method: "POST",
-    body: model,
-    headers: { "Content-Type": "text/plain" }
+  const formData = new FormData();
+  formData.append('model', model);
+
+  const res = await fetch(`${BASE_URL}/set-model`, {
+    method: 'POST',
+    body: formData,
   });
+
   if (!res.ok) throw new Error("Failed to load model");
+  
   const data = await res.json();
   console.log(data.message);
   return data;
