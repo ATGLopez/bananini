@@ -199,18 +199,18 @@
         <br>
         
         <p>
-          Belloo! hahaha baboiii poopayee hahaha belloo! La bodaaa bee do bee do bee do chasy. 
-          Pepete poopayee tank yuuu! Butt la bodaaa wiiiii aaaaaah ti aamoo! Poulet tikka masala. 
-          Tatata bala tu daa ti aamoo! Poulet tikka masala poopayee wiiiii bappleees hana dul sae ti aamoo! Jeje belloo!
+          Our first image classification model uses MobileNetV2, a lightweight <b>Convolutional Neural Network (CNN)</b>. 
+          We removed its original classifier and added a custom head tailored to banana disease detection, including fully connected layers and dropout for regularization. 
+          Initially, the base layers were frozen to retain learned image features, and only the new head was trained. 
+          In a second phase, deeper layers were unfrozen and fine-tuned to improve performance.
         </p>
 
         <br>
 
         <p>
-          Gelatooo para tú aaaaaah chasy wiiiii wiiiii daa hahaha me want bananaaa! 
-          Daa jiji bappleees tank yuuu! Butt po kass gelatooo hahaha. 
-          Potatoooo poulet tikka masala butt poopayee uuuhhh po kass. 
-          Chasy belloo! Daa baboiii ti aamoo! Daa.
+          Our second model leverages a <b>Vision Transformer (ViT)</b>.
+          We fine-tuned the pre-trained ViT model on our dataset, 
+          allowing it to adapt its global attention-based features for accurate classification.
         </p>
       </div>
     </div>
