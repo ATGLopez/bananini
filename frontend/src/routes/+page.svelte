@@ -1,6 +1,6 @@
 <script lang="ts">
   import { ImageUp, CircleX } from 'lucide-svelte';
-  import { classifyImage } from '$lib/api';
+  import { classifyImage, onModelChange } from '$lib/api';
   import Button from '$lib/components/Button.svelte';
   import ImageUploader from '$lib/components/ImageUploader.svelte';
   import DropdownModelSelector from '$lib/components/DropdownModelSelector.svelte';
@@ -11,13 +11,16 @@
   const banana = 'bg-[#F9D65E] hover:bg-[#FCE588]';
   const leaf = 'bg-[#AACE70] hover:bg-[#C1DC8E]'
 
-  let activeModel = $state('CNN');
+  let activeModel = $state('');
   let imageUrl = $state('');
   let fileName = $state('');
   let imageFile: File | null = null;
 
   let classificationResult: string | null = $state(null);
   let loading = $state(false);
+  let modelLoading = $state(false);
+  let modelLoaded = $state(false);
+  let modelLoadError = $state('');
 
   function handleFileChange(event: Event) {
     const target = event.target as HTMLInputElement;
@@ -71,6 +74,22 @@
       classificationResult = null;
     }
   }
+
+  async function handleModelSelection(selectedModel: string) {
+    modelLoading = true;
+    modelLoaded = false;
+    modelLoadError = '';
+
+    try {
+      await onModelChange(selectedModel);
+      activeModel = selectedModel;
+      modelLoaded = true;
+    } catch (error: any) {
+      modelLoadError = error?.message || 'Failed to load model';
+    } finally {
+      modelLoading = false;
+    }
+  }
 </script>
 
 <main class="scroll-smooth">
@@ -105,9 +124,17 @@
 
                 <DropdownModelSelector
                   activeModel={activeModel}
-                  onSelect={(model) => (activeModel = model)}
+                  onSelect={handleModelSelection}
                   buttonClass={banana}
                 />
+
+                {#if modelLoading}
+                  <p class="text-sm text-yellow-600 mt-1">Loading model...</p>
+                {:else if modelLoaded}
+                  <p class="text-sm text-green-600 mt-1">Model loaded successfully.</p>
+                {:else if modelLoadError}
+                  <p class="text-sm text-red-600 mt-1">{modelLoadError}</p>
+                {/if}
               </div>
               
               <div class="grid gap-2">
@@ -161,11 +188,12 @@
         <b>About</b>
       </div>
 
-      <div class="px-16 md:px-48 text-justify">
+      <div class="px-16 md:px-48 xl:px-100 text-justify text-xl">
         <p>
-          Minions ipsum gelatooo uuuhhh para tú bappleees para tú tank yuuu! Gelatooo po kass. 
-          Bappleees poopayee tulaliloo pepete belloo! Wiiiii. 
-          Baboiii hana dul sae bappleees pepete hana dul sae po kass po kass baboiii.
+          <b>Bananini</b> is a web application that allows users to upload a photo of a banana leaf for disease diagnosis.
+          It contains two pretrained models, which were finetuned to classify banana leaves into one of four categories: 
+          <b>Cordana</b>, <b>Pestalotiopsis</b>, <b>Sigatoka</b>, and <b>Healthy</b>.
+          Each disease classification is supplemented with its corresponding characteristics and description.
         </p>
 
         <br>

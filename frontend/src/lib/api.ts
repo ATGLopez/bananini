@@ -15,7 +15,7 @@ export async function classifyImage(imageFile: File, model: string) {
   }
 
   try {
-    const response = await fetch(`${BASE_URL}${endpoint}`, {
+    const response = await fetch(`http://localhost:8000${endpoint}`, {
       method: 'POST',
       body: formData,
     });
@@ -31,4 +31,16 @@ export async function classifyImage(imageFile: File, model: string) {
     console.error(`Error classifying image with ${model}:`, err);
     throw err;
   }
+}
+
+export async function onModelChange(model: string) {
+  const res = await fetch(`http://localhost:8000/set-model`, {
+    method: "POST",
+    body: model,
+    headers: { "Content-Type": "text/plain" }
+  });
+  if (!res.ok) throw new Error("Failed to load model");
+  const data = await res.json();
+  console.log(data.message);
+  return data;
 }

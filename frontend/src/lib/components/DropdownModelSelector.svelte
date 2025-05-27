@@ -20,7 +20,11 @@
 
 <div class="relative w-full">
   <Button onClick={toggleDropdown} addClass={`${buttonClass} flex justify-between items-center`}>
-    {activeModel} <ChevronDown class="w-5 h-5" />
+    {#if activeModel}
+      {activeModel} <ChevronDown class="w-5 h-5" />
+    {:else}
+      <span>Select a model</span> <ChevronDown class="w-5 h-5" />
+    {/if}
   </Button>
 
   {#if dropdownOpen}
