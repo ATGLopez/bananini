@@ -1,5 +1,5 @@
 const BASE_URL = "https://bananini.onrender.com";
-// const LOCAL_URL = "http://localhost:8000";
+const LOCAL_URL = "http://localhost:8000";
 
 export async function classifyImage(imageFile: File, model: string) {
   const formData = new FormData();

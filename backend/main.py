@@ -2,19 +2,12 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
 from PIL import Image
-import tensorflow as tf
 import numpy as np
 from io import BytesIO
-
-from transformers import ViTForImageClassification, ViTImageProcessor
-from timm import create_model
-
 import torch
-import torch.nn.functional as F
-import torchvision
-import torchvision.transforms as T
+import tensorflow as tf
 
-from huggingface_hub import hf_hub_download
+import transformers
 
 app = FastAPI()
 
@@ -31,17 +24,11 @@ class_names = ['cordana', 'healthy', 'pestalotiopsis', 'sigatoka']
 current_model_type = None
 vit_model = None
 cnn_model = None
+transforms = None
 
 IMG_SIZE = (224, 224)
 NORMALIZE_MEAN = (0.5, 0.5, 0.5)
 NORMALIZE_STD = (0.5, 0.5, 0.5)
-transforms = [
-  T.Resize(IMG_SIZE),
-  T.ToTensor(),
-  T.Normalize(NORMALIZE_MEAN, NORMALIZE_STD),
-]
-
-transforms = T.Compose(transforms)
 
 def unload_cnn():
   global cnn_model
@@ -77,8 +64,21 @@ async def set_model(model: str = Form(...)):
     cnn_model.make_predict_function()
     print("CNN model loaded.")
   elif model.lower() == "vit" and vit_model is None:
+    import torch.nn.functional as F
+    import torchvision
+    import torchvision.transforms as T
+    from timm import create_model
+    
+    transforms = [
+      T.Resize(IMG_SIZE),
+      T.ToTensor(),
+      T.Normalize(NORMALIZE_MEAN, NORMALIZE_STD),
+    ]
+
+    transforms = T.Compose(transforms)
+    
     print("Loading ViT model...")
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    device = 'cpu'
     print("Using device:", device)
     vit_model = create_model("vit_tiny_patch16_224", pretrained=False, num_classes=4).to(device)
     vit_model.load_state_dict(torch.load("models/vit_banana_leaf_disease_classifier.pth", map_location=device))
@@ -119,7 +119,7 @@ async def vit_classify(file: UploadFile = File(...)):
   try:
     contents = await file.read()
     image = Image.open(BytesIO(contents)).convert("RGB")
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    device = 'cpu'
     input_tensor = transforms(image).unsqueeze(0).to(device)
 
     with torch.no_grad():
