@@ -1,41 +1,16 @@
 # Bananini
 
-[`sv`](https://bananini.vercel.app) is a web application designed to process images of banana leaves to identify its corresponding disease. 
+[`Bananini`](https://bananini.vercel.app) is a web application that allows users to upload a photo of a banana leaf for disease diagnosis. It contains two models trained to classify banana leaves into one of four categories: Cordana, Pestalotiopsis, Sigatoka, and Healthy.
 
-The app can use either a CNN or ViT model based on the user's preference. 
+The application frontend was built with Svelte + Tailwind CSS. we set up a FastAPI backend, to accommodate requests for image classification.
 
-## Application Structure
+## Deep Learning Models
 
-Frontend - Svelte
-Backend - FastAPI
+The application contains two different deep learning models for classification:
 
-```bash
-# create a new project in the current directory
-npx sv create
+Convolutional Neural Network (CNN)
+- The CNN model uses the MobileNetV2 model, pre-trained using the ImageNet-1K dataset, finetuned using a given banana leaf diseases dataset.
 
-# create a new project in my-app
-npx sv create my-app
-```
+Vision Transformer (ViT)
+- The Vit model uses the ---
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
