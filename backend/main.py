@@ -9,6 +9,8 @@ import tensorflow as tf
 
 import transformers
 
+from huggingface_hub import hf_hub_download
+
 app = FastAPI()
 
 # CORS for frontend access
@@ -60,7 +62,8 @@ async def set_model(model: str = Form(...)):
   # Load new model
   if model.lower() == "cnn" and cnn_model is None:
     print("Loading CNN model...")
-    cnn_model = tf.keras.models.load_model("models/cnn_banana_leaf_disease_classifier.keras")
+    cnn_path = hf_hub_download("ATGLopez/bananini", "cnn_banana_leaf_disease_classifier.keras")
+    cnn_model = tf.keras.models.load_model(cnn_path)
     cnn_model.make_predict_function()
     print("CNN model loaded.")
   elif model.lower() == "vit" and vit_model is None:
@@ -80,8 +83,9 @@ async def set_model(model: str = Form(...)):
     print("Loading ViT model...")
     device = 'cpu'
     print("Using device:", device)
+    vit_path = hf_hub_download("ATGLopez/bananini", "vit_banana_leaf_disease_classifier.keras")
     vit_model = create_model("vit_tiny_patch16_224", pretrained=False, num_classes=4).to(device)
-    vit_model.load_state_dict(torch.load("models/vit_banana_leaf_disease_classifier.pth", map_location=device))
+    vit_model.load_state_dict(torch.load(vit_path, map_location=device))
     vit_model.eval()
     print("ViT model loaded.")
 
