@@ -35,10 +35,10 @@ cnn_model.make_predict_function()
 print('\n')
 
 print('---------- Loading ViT model... ----------')
-model_name = "vit_base_patch16_224"
+model_name = "vit_tiny_patch16_224"
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print("device = ", device)
-vit_model = create_model(model_name, pretrained=True).to(device)
+vit_model = create_model(model_name, pretrained=False, num_classes=4).to(device)
 vit_model.load_state_dict(torch.load("models/vit_base_0.01.pth", map_location=device))
 if vit_model:
   print('----- ViT model loaded successfully. -----')
